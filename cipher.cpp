@@ -20,14 +20,14 @@ int main(int argc, char** argv)
 				"\t<KEY> - The encryption key to use. 16 chars in length exactly\n"
 				"\t<ENC/DEC> - One of ENC or DEC, denoting encryption or decryption respectively\n"
 				"\t<INPUT FILE> - Name of the input file you would like encrypted/decrypted\n"
-				"\t<OUTPUT FILE> - Name of the output file you want content written to"
+				"\t<OUTPUT FILE> - Name of the output file you want content written to\n"
 		);
 		exit(-1);
 	}
 	
 	
 	/* Create an instance of the DES cipher */	
-	CipherInterface* cipher = DES(); 
+	CipherInterface* cipher = new DES(); 
 		
 	/* Error checks */
 	if(!cipher)
