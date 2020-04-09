@@ -5,6 +5,8 @@
 
 using namespace std;
 
+void print_usage();
+
 int main(int argc, char** argv)
 {
 	/**
@@ -13,35 +15,19 @@ int main(int argc, char** argv)
 	 * DO NOT FORGET TO PAD
 	 * THE LAST BLOCK IF NECESSARY.
 	 */
-	if (argc != 6) {
-		fprintf(stderr, "ERROR! Invalid parameter count!\n"
-			"Usage: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUT FILE> <OUTPUT FILE>\n"
-				"\t<CIPHER NAME> - The name of the cipher. One of DES/AES\n"
-				"\t<KEY> - The encryption key to use. 16 chars in length exactly\n"
-				"\t<ENC/DEC> - One of ENC or DEC, denoting encryption or decryption respectively\n"
-				"\t<INPUT FILE> - Name of the input file you would like encrypted/decrypted\n"
-				"\t<OUTPUT FILE> - Name of the output file you want content written to\n"
-		);
+	if ((argc == 2 && strcmp(argv[1], "help") == 0 || argc != 6)) {
+		print_usage();
 		exit(-1);
 	}
 	else {
-		if (strcmp(argv[1],"DES") == 0) {
-			CipherInterface* cipher = new DES();
-		}
-		else if (strcmp(argv[1], "AES") == 0) {
-			// CipherInterface* cipher = new AES();
-			fprintf(stderr, "Implement AES!\n");
-		}
+		if (strcmp(argv[1],"DES") == 0) { CipherInterface* cipher = new DES(); }
+		else if (strcmp(argv[1], "AES") == 0) { CipherInterface* cipher = new AES(); }
 		else {
 			fprintf(stderr, "Invalid <CIPHER NAME>. run ./cipher help for help.\n");
 			exit(-1);
 		}
 	}
-	
-	
-	/* Create an instance of the DES cipher */	
-	CipherInterface* cipher = new DES(); 
-		
+
 	/* Error checks */
 	if(!cipher)
 	{
@@ -65,4 +51,15 @@ int main(int argc, char** argv)
 	//cipher->decrypt(cipherText);	
 	
 	return 0;
+}
+
+void print_usage() {
+	fprintf(stderr, "ERROR! Invalid parameter count!\n"
+		"Usage: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUT FILE> <OUTPUT FILE>\n"
+			"\t<CIPHER NAME> - The name of the cipher. One of DES/AES\n"
+			"\t<KEY> - The encryption key to use. 16 chars in length exactly\n"
+			"\t<ENC/DEC> - One of ENC or DEC, denoting encryption or decryption respectively\n"
+			"\t<INPUT FILE> - Name of the input file you would like encrypted/decrypted\n"
+			"\t<OUTPUT FILE> - Name of the output file you want content written to\n"
+	);	
 }
