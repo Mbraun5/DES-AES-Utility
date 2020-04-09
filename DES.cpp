@@ -75,7 +75,7 @@ unsigned char* DES::encrypt(const unsigned char* plaintext)
 	block[1] = ctol(plaintext + 4);
 
 	/* Encrypt block using openssl encrypt method */
-	des_encrypt1(block, this->des_key, ENC);
+	des_encrypt1(block, this->key, ENC);
 
 	/* Declare char array to store ciphertext blocks */   // May need to be 9
 	unsigned char* bytes = new unsigned char[8];
@@ -105,7 +105,7 @@ unsigned char* DES::decrypt(const unsigned char* ciphertext)
 	block[1] = ctol(ciphertext + 4);
 
 	/* Encrypt block using openssl encrypt method */
-	des_encrypt1(block, this->des_key, DEC);
+	des_encrypt1(block, this->key, DEC);
 
 	/* Declare char array to store ciphertext blocks */   // May need to be 9
 	unsigned char* bytes = new unsigned char[8];
