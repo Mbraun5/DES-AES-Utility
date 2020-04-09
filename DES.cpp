@@ -67,8 +67,6 @@ bool DES::setKey(const unsigned char* keyArray)
  */
 unsigned char* DES::encrypt(const unsigned char* plaintext)
 {
-	unsigned char* pt = plaintext;
-
 	/* Declare block array */
 	DES_LONG block[2];
 
