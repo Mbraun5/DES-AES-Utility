@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 		exit(-1);	
 	}
 
-	memblock = new char [BUFFER_SIZE];
+	memblock = new unsigned char [BUFFER_SIZE];
 	/* Error checks */
 
 	
