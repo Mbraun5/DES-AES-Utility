@@ -67,6 +67,8 @@ bool DES::setKey(const unsigned char* keyArray)
  */
 unsigned char* DES::encrypt(const unsigned char* plaintext)
 {
+	unsigned char* pt = plaintext;
+
 	/* Declare block array */
 	DES_LONG block[2];
 
@@ -127,7 +129,7 @@ unsigned char* DES::decrypt(const unsigned char* ciphertext)
  * @return - the long integer (32 bits) where each byte
  * is equivalent to one of the bytes in a character array
  */
-DES_LONG DES::ctol(unsigned char *c) 
+DES_LONG DES::ctol(const unsigned char *c) 
 {
         /* The long integer */
 	DES_LONG l;
@@ -146,7 +148,7 @@ DES_LONG DES::ctol(unsigned char *c)
  * @param l - the long integer to convert
  * @param c - the character array to store the result
  */
-void DES::ltoc(DES_LONG l, unsigned char *c) 
+void DES::ltoc(DES_LONG l, const unsigned char *c) 
 {
         *((c)++)=(unsigned char)(l&0xff);
         *((c)++)=(unsigned char)(((l)>> 8L)&0xff);
