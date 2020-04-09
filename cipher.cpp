@@ -2,7 +2,8 @@
 #include "CipherInterface.h"
 #include "DES.h"
 #include "AES.h"
-#include <fstream>
+//#include <fstream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -17,8 +18,10 @@ int main(int argc, char** argv)
 	 * THE LAST BLOCK IF NECESSARY.
 	 */
 	CipherInterface* cipher = NULL;
-	ifstream infile;
-	ofstream outfile;
+	//ifstream infile;
+	//ofstream outfile;
+	FILE* infile;
+	FILE* outfile;
 	unsigned char* memblock;
 	int BUFFER_SIZE;
 
@@ -55,23 +58,25 @@ int main(int argc, char** argv)
 	}
 
 	/* Input file validation */
-	infile.open(argv[4], ios::in);
-	if (!infile) { /* File path should be absolute or relative to cipher.cpp file */
+	infile = fopen(argv[4], "rb");
+	if (infile == NULL) { /* File path should be absolute or relative to cipher.cpp file */
 		fprintf(stderr, "Invalid <INPUT FILE> - must be a valid local file path. Run ./cipher help for help.\n");
 		exit(-1);
 	}
 	/* Output file validation. */
-	outfile.open(argv[5], ios::out | ios::trunc);
-	if (!outfile) { /* If error is thrown, system is unable to create new file in working directory */
+	outfile = fopen(argv[5], "wb+");
+	if (outfile == NULL) { /* If error is thrown, system is unable to create new file in working directory */
 		fprintf(stderr, "Invalid <OUTPUT FILE> and unable to create new file in directory - "
 						"must be a valid local file path. Run ./cipher help for help.\n");
 		exit(-1);	
 	}
 
-	memblock = new unsigned char [BUFFER_SIZE+1] = {0};
-	while (!infile.eof()) {
-		infile.read(memblock, BUFFER_SIZE);
-		printf("%s %d\n", memblock, sizeof(memblock));
+	memblock = new char [BUFFER_SIZE+1] = {0};
+	int bytes;
+	while (!feof(infile)) {
+		bytes = fread(memblock, sizeof(unsigned_char), BUFFER_SIZE, infile);
+		//infile.read(memblock, BUFFER_SIZE);
+		printf("%s %d\n", memblock, bytes;
 	}
 
 	
