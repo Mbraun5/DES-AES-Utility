@@ -18,7 +18,9 @@ int main(int argc, char** argv)
 	 */
 	CipherInterface* cipher = NULL;
 	ifstream infile;
-	ofstream ofile;
+	ofstream outfile;
+	unsigned char* memblock;
+	int BUFFER_SIZE;
 
 	/** 
 	 * If argument count != 6, not every parameter was added correctly.
@@ -31,8 +33,8 @@ int main(int argc, char** argv)
 	}
 
 	/* Set the cipher using flag from 2nd command line argument */
-	if (strcmp(argv[1],"DES") == 0) { cipher = new DES(); }
-	else if (strcmp(argv[1], "AES") == 0) { cipher = new AES(); }
+	if (strcmp(argv[1],"DES") == 0) { cipher=new DES(); BUFFER_SIZE=64;}
+	else if (strcmp(argv[1], "AES") == 0) { cipher=new AES(); BUFFER_SIZE=128;}
 	else {		/* Only DES/AES are supported */
 		fprintf(stderr, "Invalid <CIPHER NAME> - must be one of DES/AES. Run ./cipher help for help.\n");
 		exit(-1);
@@ -51,11 +53,25 @@ int main(int argc, char** argv)
 		fprintf(stderr, "Valid key!\n");
 	}
 	else {
-		fprintf(stderr, "Invalid <KEY> - must be a valid 16-length hexidecimal literal. Run ./cipher help for help.\n");
+		fprintf(stderr, "Invalid <KEY> - must be a valid 16-length hexadecimal literal. Run ./cipher help for help.\n");
 		exit(-1);
 	}
-	//cipher->setKey((unsigned char*)"0123456789abcdef");
 
+	/* Input file validation */
+	infile.open(argv[4], ios::in);
+	if (!infile) { /* File path should be absolute or relative to cipher.cpp file */
+		fprintf(stderr, "Invalid <INPUT FILE> - must be a valid local file path. Run ./cipher help for help.\n");
+		exit(-1);
+	}
+	/* Output file validation. */
+	outfile.open(argv[5], ios::out | ios::trunc);
+	if (!outfile) { /* If error is thrown, system is unable to create new file in working directory */
+		fprintf(stderr, "Invalid <OUTPUT FILE> and unable to create new file in directory - "
+						"must be a valid local file path. Run ./cipher help for help.\n");
+		exit(-1);	
+	}
+
+	memblock = new char [BUFFER_SIZE];
 	/* Error checks */
 
 	
