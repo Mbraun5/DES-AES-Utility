@@ -71,12 +71,12 @@ int main(int argc, char** argv)
 		exit(-1);	
 	}
 
-	memblock = new char [BUFFER_SIZE+1];
+	memblock = new unsigned char [BUFFER_SIZE+1];
 	int bytes;
 	while (!feof(infile)) {
-		bytes = fread(memblock, sizeof(unsigned_char), BUFFER_SIZE, infile);
+		bytes = fread(memblock, sizeof(unsigned char), BUFFER_SIZE, infile);
 		//infile.read(memblock, BUFFER_SIZE);
-		printf("%s %d\n", memblock, bytes;
+		printf("%s %d\n", memblock, bytes);
 	}
 
 	
@@ -86,8 +86,8 @@ int main(int argc, char** argv)
 	/* Perform decryption */
 	//cipher->decrypt(cipherText);
 
-	infile.close();
-	outfile.close();
+	fclose(infile);
+	fclose(outfile);
 	return 0;
 }
 
