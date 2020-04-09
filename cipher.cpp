@@ -2,6 +2,7 @@
 #include "CipherInterface.h"
 #include "DES.h"
 #include "AES.h"
+#include <fstream>
 
 using namespace std;
 
@@ -15,6 +16,10 @@ int main(int argc, char** argv)
 	 * DO NOT FORGET TO PAD
 	 * THE LAST BLOCK IF NECESSARY.
 	 */
+	CipherInterface* cipher = NULL;
+	ifstream infile;
+	ofstream ofile;
+
 	if ((argc == 2 && strcmp(argv[1], "help") == 0 || argc != 6)) {
 		print_usage();
 		exit(-1);
