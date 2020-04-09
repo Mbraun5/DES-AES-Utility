@@ -24,6 +24,19 @@ int main(int argc, char** argv)
 		);
 		exit(-1);
 	}
+	else {
+		if (strcmp(argv[1],"DES") == 0) {
+			CipherInterface* cipher = new DES();
+		}
+		else if (strcmp(argv[1], "AES") == 0) {
+			// CipherInterface* cipher = new AES();
+			fprintf(stderr, "Implement AES!\n");
+		}
+		else {
+			fprintf(stderr, "Invalid <CIPHER NAME>. run ./cipher help for help.\n");
+			exit(-1);
+		}
+	}
 	
 	
 	/* Create an instance of the DES cipher */	
