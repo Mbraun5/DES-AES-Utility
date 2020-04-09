@@ -73,7 +73,7 @@ class DES: public CipherInterface
 		 * @param l - the long integer to convert
 		 * @param c - the character array to store the result
 		 */
-		void ltoc(DES_LONG l, unsigned char *c);
+		void ltoc(DES_LONG l, const unsigned char *c);
 
 
 		/**
@@ -83,7 +83,7 @@ class DES: public CipherInterface
 		 * @return - the long integer (32 bits) where each byte
 		 * is equivalent to one of the bytes in a character array
 		 */
-		DES_LONG ctol(unsigned char *c);
+		DES_LONG ctol(const unsigned char *c);
 		
 		/* The 64-bit, user-defined encryption key */
 		unsigned char des_key[8];
