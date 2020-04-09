@@ -49,10 +49,7 @@ int main(int argc, char** argv)
 	 * Set the encryption/decryption key for the cipher. 
 	 * A valid key comprises 16 hexidecimal characters
 	 */
-	if (cipher->setKey((unsigned char*)argv[2])) {
-		fprintf(stderr, "Valid key!\n");
-	}
-	else {
+	if (!cipher->setKey((unsigned char*)argv[2])) {
 		fprintf(stderr, "Invalid <KEY> - must be a valid 16-length hexadecimal literal. Run ./cipher help for help.\n");
 		exit(-1);
 	}
@@ -71,16 +68,21 @@ int main(int argc, char** argv)
 		exit(-1);	
 	}
 
-	memblock = new unsigned char [BUFFER_SIZE];
-	/* Error checks */
+	memblock = new unsigned char [BUFFER_SIZE+1] = {0};
+	while (!infile.eof()) {
+		infile.read(memblock, BUFFER_SIZE);
+		printf("%s %d\n", memblock, sizeof(memblock));
+	}
 
 	
 	/* Perform encryption */
 	//string cipherText = cipher->encrypt("hello world");
 	
 	/* Perform decryption */
-	//cipher->decrypt(cipherText);	
-	
+	//cipher->decrypt(cipherText);
+
+	infile.close();
+	outfile.close();
 	return 0;
 }
 
