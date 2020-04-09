@@ -148,7 +148,7 @@ DES_LONG DES::ctol(const unsigned char *c)
  * @param l - the long integer to convert
  * @param c - the character array to store the result
  */
-void DES::ltoc(DES_LONG l, const unsigned char *c) 
+void DES::ltoc(DES_LONG l, unsigned char *c) 
 {
         *((c)++)=(unsigned char)(l&0xff);
         *((c)++)=(unsigned char)(((l)>> 8L)&0xff);
