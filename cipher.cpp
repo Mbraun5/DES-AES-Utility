@@ -21,14 +21,13 @@ int main(int argc, char** argv)
 	ofstream ofile;
 
 	if ((argc == 2 && strcmp(argv[1], "help") == 0 || argc != 6)) {
-		if (!argv[1]) {fprintf(stderr, "test");}
 		if (!argv[1] || strcmp(argv[1], "help") != 0) { fprintf(stderr, "ERROR! Invalid parameter count!\n"); }
 		print_usage();
 		exit(-1);
 	}
 	else {
-		if (strcmp(argv[1],"DES") == 0) { CipherInterface* cipher = new DES(); }
-		else if (strcmp(argv[1], "AES") == 0) { CipherInterface* cipher = new AES(); }
+		if (strcmp(argv[1],"DES") == 0) { cipher = new DES(); }
+		else if (strcmp(argv[1], "AES") == 0) { cipher = new AES(); }
 		else {
 			fprintf(stderr, "Invalid <CIPHER NAME>. run ./cipher help for help.\n");
 			exit(-1);
