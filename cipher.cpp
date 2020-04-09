@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 		exit(-1);	
 	}
 
-	memblock = new char [BUFFER_SIZE+1] = {0};
+	memblock = new char [BUFFER_SIZE+1];
 	int bytes;
 	while (!feof(infile)) {
 		bytes = fread(memblock, sizeof(unsigned_char), BUFFER_SIZE, infile);
