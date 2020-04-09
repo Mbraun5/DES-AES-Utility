@@ -13,10 +13,21 @@ int main(int argc, char** argv)
 	 * DO NOT FORGET TO PAD
 	 * THE LAST BLOCK IF NECESSARY.
 	 */
+	if (argc != 6) {
+		fprintf(stderr, "ERROR! Invalid parameter count!\n
+			Usage: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUT FILE> <OUTPUT FILE>\n
+				\t<CIPHER NAME> - The name of the cipher. One of DES/AES\n
+				\t<KEY> - The encryption key to use. 16 chars in length exactly\n
+				\t<ENC/DEC> - One of `ENC` or `DEC`, denoting encryption or decryption respectively\n
+				\t<INPUT FILE> - Name of the input file you would like encrypted/decrypted\n
+				\t<OUTPUT FILE> - Name of the output file you want content written to"
+		);
+		exit(-1);
+	}
 	
 	
 	/* Create an instance of the DES cipher */	
-	CipherInterface* cipher = NULL; 
+	CipherInterface* cipher = DES(); 
 		
 	/* Error checks */
 	if(!cipher)
