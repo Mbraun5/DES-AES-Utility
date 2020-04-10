@@ -10,15 +10,19 @@
  */
 bool AES::setKey(const unsigned char* keyArray)
 {
+	/* Copy over valid bytes to key array */
 	for (int i=0; i<17; i++){
 		this->key[i] = keyArray[i+1];
 	}
+	
+	/* If first index is set to 0x00, then user passed in ENC */
 	if (keyArray[0] == 0x00){
 		if (AES_set_encrypt_key(this->key, 128, &this->aes_key) != 0) {
 			fprintf(stderr, "AES_set_encrypt_key() failed!\n");
 			return false;
 		}
 	}
+	/* Otherwise, DEC */
 	else {
 		if (AES_set_decrypt_key(this->key, 128, &this->aes_key) != 0) {
 			fprintf(stderr, "AES_set_decrypt_key() failed!\n");
@@ -26,10 +30,10 @@ bool AES::setKey(const unsigned char* keyArray)
 		}
 	}
 
+	/* If key was valid, print the key the user passed in */
 	fprintf(stdout, "AES PRE-KEY: ");
-	/* Print the key */
-	for(int keyIndex = 0; keyIndex < 8; ++keyIndex)
-		fprintf(stdout, "%x", this->key[keyIndex]);
+	for(int keyIndex = 0; keyIndex < 16; ++keyIndex)
+		fprintf(stdout, "%c", this->key[keyIndex]);
 	fprintf(stdout, "\n");
 
 	return true;	
@@ -42,13 +46,11 @@ bool AES::setKey(const unsigned char* keyArray)
  */
 unsigned char* AES::encrypt(const unsigned char* plainText)
 {
+	unsigned char* bytes = new unsigned char[16];
+	memset(bytes, 0, 16);
+	AES_ecb_encrypt(plainText, bytes, &this->aes_key, AES_ENCRYPT);
 	
-	//TODO: 1. Dynamically allocate a block to store the ciphertext.
-	//	2. Use AES_ecb_encrypt(...) to encrypt the text (please see the URL in setKey(...)
-	//	and the aes.cpp example provided.
-	// 	3. Return the pointer to the ciphertext
-		
-	return NULL;	
+	return bytes;
 }
 
 /**
@@ -58,13 +60,11 @@ unsigned char* AES::encrypt(const unsigned char* plainText)
  */
 unsigned char* AES::decrypt(const unsigned char* cipherText)
 {
-	
-	//TODO: 1. Dynamically allocate a block to store the plaintext.
-	//	2. Use AES_ecb_encrypt(...) to decrypt the text (please see the URL in setKey(...)
-	//	and the aes.cpp example provided.
-	// 	3. Return the pointer to the plaintext
-		
-	return NULL;
+	unsigned char* bytes = new unsigned char[16];
+	memset(bytes, 0, 16);
+	AES_ecb_encrypt(cipherText, bytes, &this->aes_key, AES_DECRYPT);
+
+	return bytes;
 }
 
 
