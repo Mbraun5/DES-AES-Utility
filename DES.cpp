@@ -77,7 +77,7 @@ unsigned char* DES::encrypt(const unsigned char* plaintext)
 	/* Encrypt block using openssl encrypt method */
 	des_encrypt1(block, this->key, ENC);
 
-	/* Declare char array to store ciphertext blocks */   // May need to be 9
+	/* Declare char array to store ciphertext blocks */
 	unsigned char* bytes = new unsigned char[8];
 	memset(bytes, 0, 8);
 
@@ -106,7 +106,7 @@ unsigned char* DES::decrypt(const unsigned char* ciphertext)
 	/* Encrypt block using openssl encrypt method */
 	des_encrypt1(block, this->key, DEC);
 
-	/* Declare char array to store ciphertext blocks */   // May need to be 9
+	/* Declare char array to store ciphertext blocks */
 	unsigned char* bytes = new unsigned char[8];
 	memset(bytes, 0, 8);
 
