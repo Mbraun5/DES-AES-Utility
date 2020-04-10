@@ -71,12 +71,18 @@ int main(int argc, char** argv)
 		exit(-1);	
 	}
 
-	memblock = new unsigned char [BUFFER_SIZE+1];
+	pblock = new unsigned char [BUFFER_SIZE];
+	nblock = new unsigned char [BUFFER_SIZE];
 	int bytes;
 	while (!feof(infile)) {
-		bytes = fread(memblock, sizeof(unsigned char), BUFFER_SIZE, infile);
-		//infile.read(memblock, BUFFER_SIZE);
-		printf("%s %d\n", memblock, bytes);
+			bytes = fread(pblock, sizeof(unsigned char), BUFFER_SIZE, infile);
+			nblock = cipher->encrypt(pblock);
+			
+			printf("%s\n", memblock);
+			printf("%s\n\n", nblock);
+
+			memset(pblock, '\0', BUFFER_SIZE);
+			memset(nblock, '\0', BUFFER_SIZE);
 	}
 
 	
