@@ -52,7 +52,7 @@ class AES: public CipherInterface
 		/* The 128-bit, user-defined encryption key with a padding byte at beginning
 		 * denoting whether or not this is for encryption or decryption.
 		 */
-		unsigned char key[16];
+		unsigned char key[32];
 		AES_KEY aes_key;
 };
 

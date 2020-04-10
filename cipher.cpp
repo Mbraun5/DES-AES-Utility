@@ -52,12 +52,12 @@ int main(int argc, char** argv)
 		cipher=new AES(); 
 		BUFFER_SIZE=16;
 
-		/* Set encryption key. Should be 16 hexadecimal characters that conforms to AES restrictions */
-		unsigned char key[17] = {0x00};
+		/* Set encryption key. Should be 32 hexadecimal characters that conforms to AES restrictions */
+		unsigned char key[33] = {0x00};
 		memcpy(&key[1], argv[2], strlen(argv[2]));
-		if (encrypt) { key[0] = 0x00; }
-		else { key[0] = 0x01; }
-		if (!cipher->setKey(key)) {
+		if (encrypt) { key[0] = 0x00; }		// Encrypt flag
+		else { key[0] = 0x01; }				// Decrypt flag
+		if (strlen(argv[2]) != 32 || !cipher->setKey(key)) {
 			fprintf(stderr, "Invalid <KEY> - must be a valid 16-length hexadecimal literal that conforms to AES standards. Run ./cipher help for help.\n");
 			exit(-1);
 		}

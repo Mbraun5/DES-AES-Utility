@@ -11,7 +11,7 @@
 bool AES::setKey(const unsigned char* keyArray)
 {
 	/* Copy over valid bytes to key array */
-	for (int i=0; i<17; i++){
+	for (int i=0; i<32; i++){
 		this->key[i] = keyArray[i+1];
 	}
 	
@@ -32,7 +32,7 @@ bool AES::setKey(const unsigned char* keyArray)
 
 	/* If key was valid, print the key the user passed in */
 	fprintf(stdout, "AES PRE-KEY: ");
-	for(int keyIndex = 0; keyIndex < 16; ++keyIndex)
+	for(int keyIndex = 0; keyIndex < 32; ++keyIndex)
 		fprintf(stdout, "%c", this->key[keyIndex]);
 	fprintf(stdout, "\n");
 
@@ -64,8 +64,8 @@ unsigned char* AES::encrypt(const unsigned char* plainText)
 unsigned char* AES::decrypt(const unsigned char* cipherText)
 {
 	/* Create output buffer */
-	unsigned char* bytes = new unsigned char[16];
-	memset(bytes, 0, 16);
+	unsigned char* bytes = new unsigned char[17];
+	memset(bytes, 0, 17);
 
 	/* Decrypt file using AES key */
 	AES_ecb_encrypt(cipherText, bytes, &this->aes_key, AES_DECRYPT);
