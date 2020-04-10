@@ -49,7 +49,10 @@ class AES: public CipherInterface
 	/* The protected members */
 	protected:
 
-		//TODO: declare the AES key
+		/* The 128-bit, user-defined encryption key with a padding byte at beginning
+		 * denoting whether or not this is for encryption or decryption.
+		 */
+		unsigned char aes_key[17];
 };
 
 
