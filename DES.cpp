@@ -86,7 +86,6 @@ unsigned char* DES::encrypt(const unsigned char* plaintext)
 	ltoc(block[1], bytes + 4);
 	
 	/* Return dynamically allocated bytes array */
-	fprintf(stderr, "Cipher text: %s\n", bytes);
 	return bytes;
 }
 
@@ -116,7 +115,6 @@ unsigned char* DES::decrypt(const unsigned char* ciphertext)
 	ltoc(block[1], bytes + 4);
 	
 	/* Return dynamically allocated bytes array */
-	fprintf(stderr, "Plain text: %s\n", bytes);
 	return bytes;
 }
 
