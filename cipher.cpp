@@ -88,12 +88,14 @@ int main(int argc, char** argv)
 
 	pblock = new unsigned char [BUFFER_SIZE];		// previous block
 	nblock = new unsigned char [BUFFER_SIZE];		// new block
-	int bytes;										// count non-null bytes after conversion
+	int bytes = 8;									// count non-null bytes after conversion
 	while (fread(pblock, sizeof(unsigned char), BUFFER_SIZE, infile) != 0) {
 			if (encrypt) { nblock = cipher->encrypt(pblock); }
-			else { nblock = cipher->decrypt(pblock); }
+			else { 
+				nblock = cipher->decrypt(pblock); 
+				bytes = clen(nblock, BUFFER_SIZE); 
+			}
 
-			bytes = clen(nblock, BUFFER_SIZE);
 			if (fwrite(nblock, sizeof(unsigned char), bytes, outfile) != bytes) {
 				fprintf(stderr, "ERROR [%s %s %d]: Did not write correct bytes to file\n",	
 								__FILE__, __FUNCTION__, __LINE__);
