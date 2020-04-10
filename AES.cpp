@@ -64,8 +64,8 @@ unsigned char* AES::encrypt(const unsigned char* plainText)
 unsigned char* AES::decrypt(const unsigned char* cipherText)
 {
 	/* Create output buffer */
-	unsigned char* bytes = new unsigned char[17];
-	memset(bytes, 0, 17);
+	unsigned char* bytes = new unsigned char[16];
+	memset(bytes, 0, 16);
 
 	/* Decrypt file using AES key */
 	AES_ecb_encrypt(cipherText, bytes, &this->aes_key, AES_DECRYPT);
