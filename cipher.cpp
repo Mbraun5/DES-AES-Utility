@@ -53,7 +53,7 @@ int main(int argc, char** argv)
 		BUFFER_SIZE=16;
 
 		/* Set encryption key. Should be 16 hexadecimal characters that conforms to AES restrictions */
-		unsigned char key[18] = {0x00};
+		unsigned char key[17] = {0x00};
 		memcpy(&key[1], argv[2], strlen(argv[2]));
 		if (encrypt) { key[0] = 0x00; }
 		else { key[0] = 0x01; }

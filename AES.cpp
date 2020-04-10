@@ -10,25 +10,29 @@
  */
 bool AES::setKey(const unsigned char* keyArray)
 {
+	for (int i=0; i<17; i++){
+		this->key[i] = keyArray[i+1];
+	}
+	if (keyArray[0] == 0x00){
+		if (AES_set_encrypt_key(this->key, 128, &this->aes_key) != 0) {
+			fprintf(stderr, "AES_set_encrypt_key() failed!\n");
+			return false
+		}
+	}
+	else {
+		if (AES_set_decrypt_key(this->key, 128, &this->aes_key) != 0) {
+			fprintf(stderr, "AES_set_decrypt_key() failed!\n");
+			return false
+		}
+	}	
+	fprintf(stdout, "DES KEY: ");
+
+	/* Print the key */
+	for(int keyIndex = 0; keyIndex < 8; ++keyIndex)
+		fprintf(stdout, "%x", this->aes_key[keyIndex]);
 	
-	// TODO: AES implementation of openssl cares about whether
-	// you are encrypting or decrypting when setting the key.
-	// That is, when encrypting you use function AES_set_encrypt_key(...)
-	// and when decrypting AES_set_decrypt_key(...).
-	//
-	// One way to solve this problem is to pass in a 17 byte key, where
-	// the first byte is used to indicate whether we are encrypting or
-	// decrypting. E.g., if the first byte is 0, then use AES_set_encrypt_key(...).
-	// Otherwise, use AES_set_decrypt_key(...).  The rest of the bytes in the
-	// array indicate the 16 bytes of the 128-bit AES key.
-	//
-	// Both functions return 0 on success and other values on faliure.
-	// For documentation, please see https://boringssl.googlesource.com/boringssl/+/2623/include/openssl/aes.h
-	// and aes.cpp example provided with the assignment.
-	
-	
-	return false;
-	
+	fprintf(stdout, "\n");	
+	return true;	
 }
 
 /**	
