@@ -2,7 +2,6 @@
 #include "CipherInterface.h"
 #include "DES.h"
 #include "AES.h"
-//#include <fstream>
 #include <stdio.h>
 
 using namespace std;
@@ -18,13 +17,12 @@ int main(int argc, char** argv)
 	 * THE LAST BLOCK IF NECESSARY.
 	 */
 	CipherInterface* cipher = NULL;
-	//ifstream infile;
-	//ofstream outfile;
 	FILE* infile;
 	FILE* outfile;
 	unsigned char* pblock; 
 	unsigned char* nblock;
 	int BUFFER_SIZE;
+	bool encrypt;
 
 	/** 
 	 * If argument count != 6, not every parameter was added correctly.
@@ -46,6 +44,13 @@ int main(int argc, char** argv)
 	if(!cipher) {  /* Sanity check to make sure cipher was created properly */
 		fprintf(stderr, "ERROR [%s %s %d]: could not allocate memory\n",	
 		__FILE__, __FUNCTION__, __LINE__);
+		exit(-1);
+	}
+
+	if (strcmp(argv[3], "ENC") == 0) { encrypt = true; }
+	else if (strcmp(argv[3], "DEC") == 0) { encrypt = false; }
+	else {
+		fprintf(stderr, "Invalid <ENC/DEC> - must be one of ENC/DEC, denoting whether to encrypt or decrypt respectively. Run ./cipher help for help.\n");
 		exit(-1);
 	}
 
@@ -77,10 +82,14 @@ int main(int argc, char** argv)
 	int bytes;
 	while (!feof(infile)) {
 			bytes = fread(pblock, sizeof(unsigned char), BUFFER_SIZE, infile);
-			nblock = cipher->encrypt(pblock);
-			
-			printf("%s\n", pblock);
-			printf("%s\n\n", nblock);
+
+			if (encrypt) { nblock = cipher->encrypt(pblock); }
+			else { nblock = cipher->decrypt(pblock); }
+
+			if (fwrite(nblock, sizeof(unsigned char), bytes, outfile) != bytes) {
+				fprintf(stderr, "Did not write correct amount of lines to new file.\n");
+				exit(-1);
+			}
 
 			memset(pblock, '\0', BUFFER_SIZE);
 			memset(nblock, '\0', BUFFER_SIZE);
