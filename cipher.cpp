@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 		memcpy(&key[1], argv[2], strlen(argv[2]));
 		if (encrypt) { key[0] = 0x00; }
 		else { key[0] = 0x01; }
-		if (!cipher->setKey(key) {
+		if (!cipher->setKey(key)) {
 			fprintf(stderr, "Invalid <KEY> - must be a valid 16-length hexadecimal literal that conforms to AES standards. Run ./cipher help for help.\n");
 			exit(-1);
 		}
