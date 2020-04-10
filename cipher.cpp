@@ -30,8 +30,8 @@ int main(int argc, char** argv)
 	}
 
 	/* Set the cipher using flag from 2nd command line argument */
-	if (strcmp(argv[1],"DES") == 0) { cipher=new DES(); BUFFER_SIZE=64;}
-	else if (strcmp(argv[1], "AES") == 0) { cipher=new AES(); BUFFER_SIZE=128;}
+	if (strcmp(argv[1],"DES") == 0) { cipher=new DES(); BUFFER_SIZE=8;}
+	else if (strcmp(argv[1], "AES") == 0) { cipher=new AES(); BUFFER_SIZE=16;}
 	else {		/* Only DES/AES are supported */
 		fprintf(stderr, "Invalid <CIPHER NAME> - must be one of DES/AES. Run ./cipher help for help.\n");
 		exit(-1);
