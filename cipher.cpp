@@ -79,7 +79,7 @@ int main(int argc, char** argv)
 			bytes = fread(pblock, sizeof(unsigned char), BUFFER_SIZE, infile);
 			nblock = cipher->encrypt(pblock);
 			
-			printf("%s\n", memblock);
+			printf("%s\n", pblock);
 			printf("%s\n\n", nblock);
 
 			memset(pblock, '\0', BUFFER_SIZE);
