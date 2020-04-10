@@ -49,11 +49,18 @@ class AES: public CipherInterface
 	/* The protected members */
 	protected:
 
+		/**
+		 * Converts two characters into a hex integers
+		 * and then inserts the integers into the higher
+		 * and lower bits of the byte
+		 */
+		unsigned char twoCharToHexByte(const unsigned char* twoChars);
+
 		/* The 128-bit, user-defined encryption key with a padding byte at beginning
 		 * denoting whether or not this is for encryption or decryption.
 		 */
-		unsigned char key[32];
-		AES_KEY aes_key;
+		unsigned char aes_key[16];
+		AES_KEY key;
 };
 
 

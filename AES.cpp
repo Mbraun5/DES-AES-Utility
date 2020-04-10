@@ -10,31 +10,32 @@
  */
 bool AES::setKey(const unsigned char* keyArray)
 {
-	/* Copy over valid bytes to key array */
-	for (int i=0; i<32; i++){
-		this->key[i] = keyArray[i+1];
+	for(int idx=1; idx<32; idx+=2) {
+		/* Convert the key if the character is valid */
+		if((this->aes_key[idx/2] = twoCharToHexByte(keyArray + idx)) == 'z')
+			return false;
 	}
+
+	/* Print the key */
+	fprintf(stdout, "AES KEY: ");
+	for(int idx=0; idx<16; idx++)
+		fprintf(stdout, "%x", this->aes_key[idx]);
+	fprintf(stdout, "\n");	
 	
 	/* If first index is set to 0x00, then user passed in ENC */
 	if (keyArray[0] == 0x00){
-		if (AES_set_encrypt_key(this->key, 128, &this->aes_key) != 0) {
+		if (AES_set_encrypt_key(this->aes_key, 128, &this->key) != 0) {
 			fprintf(stderr, "AES_set_encrypt_key() failed!\n");
 			return false;
 		}
 	}
 	/* Otherwise, DEC */
 	else {
-		if (AES_set_decrypt_key(this->key, 128, &this->aes_key) != 0) {
+		if (AES_set_decrypt_key(this->aes_key, 128, &this->key) != 0) {
 			fprintf(stderr, "AES_set_decrypt_key() failed!\n");
 			return false;
 		}
 	}
-
-	/* If key was valid, print the key the user passed in */
-	fprintf(stdout, "AES PRE-KEY: ");
-	for(int keyIndex = 0; keyIndex < 32; ++keyIndex)
-		fprintf(stdout, "%c", this->key[keyIndex]);
-	fprintf(stdout, "\n");
 
 	return true;	
 }
@@ -73,5 +74,33 @@ unsigned char* AES::decrypt(const unsigned char* cipherText)
 	return bytes;
 }
 
+unsigned char AES::twoCharToHexByte(const unsigned char* twoChars)
+{
+	/* The byte */
+	unsigned char singleByte;
+	
+	/* The second character */
+	unsigned char secondChar;
 
+	/* Convert the first character */
+	if((singleByte = charToHex(twoChars[0])) == 'z') 
+	{
+		/* Invalid digit */
+		return 'z';
+	}
+	
+	/* Move the newly inserted nibble from the
+	 * lower to upper nibble.
+	 */
+	singleByte = (singleByte << 4);
+	
+	/* Conver the second character */
+	if((secondChar = charToHex(twoChars[1])) == 'z')
+		return 'z'; 
+	
+	/* Insert the second value into the lower nibble */	
+	singleByte |= secondChar;
+
+	return singleByte;
+}
 
