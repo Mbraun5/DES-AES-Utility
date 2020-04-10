@@ -93,15 +93,23 @@ int main(int argc, char** argv)
 			if (encrypt) { nblock = cipher->encrypt(pblock); }
 			else { 
 				nblock = cipher->decrypt(pblock); 
-				bytes = clen(nblock, BUFFER_SIZE); 
+				bytes = clen(nblock, BUFFER_SIZE); 	// Ignore the null characters (padding) when decrypting
 			}
 
+			/** When encoding, write the entire buffer size. When decoding, only write back the valid
+			 ** bytes from the original file.
+			 */
 			if (fwrite(nblock, sizeof(unsigned char), bytes, outfile) != bytes) {
 				fprintf(stderr, "ERROR [%s %s %d]: Did not write correct bytes to file\n",	
 								__FILE__, __FUNCTION__, __LINE__);
 				exit(-1);
 			}
 
+			/** Resets both blocks to the null character. This acts as padding in case the final read
+			 ** of the file is less than BUFFER_SIZE. The remaining characters in the encrypt will be
+			 ** null characters. When decrypting, these null characters are ignored due to the clen
+			 ** function above
+			 */
 			memset(pblock, '\0', BUFFER_SIZE);
 			memset(nblock, '\0', BUFFER_SIZE);
 	}
@@ -111,6 +119,7 @@ int main(int argc, char** argv)
 	return 0;
 }
 
+/* Counts the length of the blocks (until they reach null character) */
 int clen(const unsigned char* block, int mlen) {
 	int count = 0;
 	for (int i=0; i < mlen; i++){
@@ -120,6 +129,7 @@ int clen(const unsigned char* block, int mlen) {
 	return count;
 }
 
+/* Print how to use the program with meaningful description for all parameters */
 void print_usage() {
 	fprintf(stderr,
 		"Usage: ./cipher <CIPHER NAME> <KEY> <ENC/DEC> <INPUT FILE> <OUTPUT FILE>\n"
