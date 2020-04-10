@@ -29,19 +29,6 @@ int main(int argc, char** argv)
 		exit(-1);
 	}
 
-	/* Set the cipher using flag from 2nd command line argument */
-	if (strcmp(argv[1],"DES") == 0) { cipher=new DES(); BUFFER_SIZE=8;}
-	else if (strcmp(argv[1], "AES") == 0) { cipher=new AES(); BUFFER_SIZE=16;}
-	else {		/* Only DES/AES are supported */
-		fprintf(stderr, "Invalid <CIPHER NAME> - must be one of DES/AES. Run ./cipher help for help.\n");
-		exit(-1);
-	}
-	if(!cipher) {  /* Sanity check to make sure cipher was created properly */
-		fprintf(stderr, "ERROR [%s %s %d]: could not allocate memory\n",	
-						__FILE__, __FUNCTION__, __LINE__);
-		exit(-1);
-	}
-
 	/* Check encode/decode parameter and set encrypt/decrypt flag appropriately. */
 	if (strcmp(argv[3], "ENC") == 0) { encrypt = true; }
 	else if (strcmp(argv[3], "DEC") == 0) { encrypt = false; }
@@ -50,12 +37,38 @@ int main(int argc, char** argv)
 		exit(-1);
 	}
 
-	/** 
-	 * Set the encryption/decryption key for the cipher. 
-	 * A valid key comprises 16 hexidecimal characters
-	 */
-	if (!cipher->setKey((unsigned char*)argv[2])) {
-		fprintf(stderr, "Invalid <KEY> - must be a valid 16-length hexadecimal literal. Run ./cipher help for help.\n");
+	/* Set the cipher using flag from 2nd command line argument */
+	if (strcmp(argv[1],"DES") == 0) { 
+		cipher=new DES(); 
+		BUFFER_SIZE=8;
+
+		/* Set encryption key. Should be 16 hexadecimal characters that conforms to DES restrictions */
+		if (!cipher->setKey((unsigned char*)argv[2])) {
+			fprintf(stderr, "Invalid <KEY> - must be a valid 16-length hexadecimal literal that conforms to DES standards. Run ./cipher help for help.\n");
+			exit(-1);
+		}
+	}
+	else if (strcmp(argv[1], "AES") == 0) { 
+		cipher=new AES(); 
+		BUFFER_SIZE=16;
+
+		/* Set encryption key. Should be 16 hexadecimal characters that conforms to AES restrictions */
+		unsigned char key[18] = {0x00};
+		memcpy(&key[1], argv[2], strlen(argv[2]));
+		if (encrypt) { key[0] = 0x00; }
+		else { key[0] = 0x01; }
+		if (!cipher->setKey(key) {
+			fprintf(stderr, "Invalid <KEY> - must be a valid 16-length hexadecimal literal that conforms to AES standards. Run ./cipher help for help.\n");
+			exit(-1);
+		}
+	}
+	else {		/* Only DES/AES are supported */
+		fprintf(stderr, "Invalid <CIPHER NAME> - must be one of DES/AES. Run ./cipher help for help.\n");
+		exit(-1);
+	}
+	if(!cipher) {  /* Sanity check to make sure cipher was created properly */
+		fprintf(stderr, "ERROR [%s %s %d]: could not allocate memory\n",	
+						__FILE__, __FUNCTION__, __LINE__);
 		exit(-1);
 	}
 
