@@ -22,7 +22,8 @@ int main(int argc, char** argv)
 	//ofstream outfile;
 	FILE* infile;
 	FILE* outfile;
-	unsigned char* pblock, nblock;
+	unsigned char* pblock; 
+	unsigned char* nblock;
 	int BUFFER_SIZE;
 
 	/** 
