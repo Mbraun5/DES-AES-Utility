@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 
 	pblock = new unsigned char [BUFFER_SIZE];		// previous block
 	nblock = new unsigned char [BUFFER_SIZE];		// new block
-	int bytes = 8;									// count non-null bytes after conversion
+	int bytes = BUFFER_SIZE;						// count non-null bytes after conversion
 	while (fread(pblock, sizeof(unsigned char), BUFFER_SIZE, infile) != 0) {
 			if (encrypt) { nblock = cipher->encrypt(pblock); }
 			else { 
