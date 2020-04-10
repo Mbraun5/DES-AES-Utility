@@ -7,15 +7,10 @@
 using namespace std;
 
 void print_usage();
+int clen(const unsigned char* block, int mlen);
 
 int main(int argc, char** argv)
 {
-	/**
-	 * TODO: Replace the code below	to SWITCH
-	 * between DES and AES and encrypt files. 
-	 * DO NOT FORGET TO PAD
-	 * THE LAST BLOCK IF NECESSARY.
-	 */
 	CipherInterface* cipher = NULL;
 	FILE* infile;
 	FILE* outfile;
@@ -43,10 +38,11 @@ int main(int argc, char** argv)
 	}
 	if(!cipher) {  /* Sanity check to make sure cipher was created properly */
 		fprintf(stderr, "ERROR [%s %s %d]: could not allocate memory\n",	
-		__FILE__, __FUNCTION__, __LINE__);
+						__FILE__, __FUNCTION__, __LINE__);
 		exit(-1);
 	}
 
+	/* Check encode/decode parameter and set encrypt/decrypt flag appropriately. */
 	if (strcmp(argv[3], "ENC") == 0) { encrypt = true; }
 	else if (strcmp(argv[3], "DEC") == 0) { encrypt = false; }
 	else {
@@ -77,17 +73,17 @@ int main(int argc, char** argv)
 		exit(-1);	
 	}
 
-	pblock = new unsigned char [BUFFER_SIZE];
-	nblock = new unsigned char [BUFFER_SIZE];
-	int bytes;
-	while (!feof(infile)) {
-			bytes = fread(pblock, sizeof(unsigned char), BUFFER_SIZE, infile);
-
+	pblock = new unsigned char [BUFFER_SIZE];		// previous block
+	nblock = new unsigned char [BUFFER_SIZE];		// new block
+	int bytes;										// count non-null bytes after conversion
+	while (fread(pblock, sizeof(unsigned char), BUFFER_SIZE, infile) != 0) {
 			if (encrypt) { nblock = cipher->encrypt(pblock); }
 			else { nblock = cipher->decrypt(pblock); }
 
+			bytes = clen(nblock, BUFFER_SIZE);
 			if (fwrite(nblock, sizeof(unsigned char), bytes, outfile) != bytes) {
-				fprintf(stderr, "Did not write correct amount of lines to new file.\n");
+				fprintf(stderr, "ERROR [%s %s %d]: Did not write correct bytes to file\n",	
+								__FILE__, __FUNCTION__, __LINE__);
 				exit(-1);
 			}
 
@@ -95,16 +91,18 @@ int main(int argc, char** argv)
 			memset(nblock, '\0', BUFFER_SIZE);
 	}
 
-	
-	/* Perform encryption */
-	//string cipherText = cipher->encrypt("hello world");
-	
-	/* Perform decryption */
-	//cipher->decrypt(cipherText);
-
 	fclose(infile);
 	fclose(outfile);
 	return 0;
+}
+
+int clen(const unsigned char* block, int mlen) {
+	int count = 0;
+	for (int i=0; i < mlen; i++){
+		if (block[i] != '\0') count++;
+		else break;
+	}
+	return count;
 }
 
 void print_usage() {
