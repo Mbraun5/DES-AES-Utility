@@ -16,22 +16,22 @@ bool AES::setKey(const unsigned char* keyArray)
 	if (keyArray[0] == 0x00){
 		if (AES_set_encrypt_key(this->key, 128, &this->aes_key) != 0) {
 			fprintf(stderr, "AES_set_encrypt_key() failed!\n");
-			return false
+			return false;
 		}
 	}
 	else {
 		if (AES_set_decrypt_key(this->key, 128, &this->aes_key) != 0) {
 			fprintf(stderr, "AES_set_decrypt_key() failed!\n");
-			return false
+			return false;
 		}
-	}	
-	fprintf(stdout, "DES KEY: ");
+	}
 
+	fprintf(stdout, "AES PRE-KEY: ");
 	/* Print the key */
 	for(int keyIndex = 0; keyIndex < 8; ++keyIndex)
-		fprintf(stdout, "%x", this->aes_key[keyIndex]);
-	
-	fprintf(stdout, "\n");	
+		fprintf(stdout, "%x", this->key[keyIndex]);
+	fprintf(stdout, "\n");
+
 	return true;	
 }
 
