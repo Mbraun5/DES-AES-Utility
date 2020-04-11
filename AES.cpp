@@ -79,7 +79,7 @@ unsigned char* AES::decrypt(const unsigned char* cipherText)
  * @param character - the character to convert
  * @return - the converted character, or 'z' on error
  */
-unsigned char DES::charToHex(const char& character)
+unsigned char AES::charToHex(const char& character)
 {
 	/* Is the first digit 0-9 ? */	
 	if(character >= '0' && character <= '9')	
