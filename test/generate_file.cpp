@@ -19,15 +19,14 @@ int main(int argc, char** argv)
 {
     srand(time(NULL));
     unsigned char* buf;
-    FILE* outfile = fopen("test_file", "wb+");
+    FILE* outfile = fopen("test_file.txt", "wb+");
 
     if (argc != 2) {
-        fprintf(stderr, "Invalid argc size. Need to pass offset parameter.");
+        fprintf(stderr, "Invalid argc size. Need to pass offset parameter.\n");
         exit(-1);
     }
 
     int offset = atoi(argv[1]);
-    printf("%d\n", offset);
     buf = new unsigned char [BUFSIZE + offset];
 
     if (outfile == NULL) { /* If error is thrown, system is unable to create new file in working directory */
