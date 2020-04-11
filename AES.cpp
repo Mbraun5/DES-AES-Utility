@@ -52,7 +52,7 @@ unsigned char* AES::encrypt(const unsigned char* plainText)
 	memset(bytes, 0, 16);
 	
 	/* Encrypt file using AES key */
-	AES_ecb_encrypt(plainText, bytes, &this->aes_key, AES_ENCRYPT);
+	AES_ecb_encrypt(plainText, bytes, &this->key, AES_ENCRYPT);
 
 	return bytes;
 }
@@ -69,7 +69,7 @@ unsigned char* AES::decrypt(const unsigned char* cipherText)
 	memset(bytes, 0, 16);
 
 	/* Decrypt file using AES key */
-	AES_ecb_encrypt(cipherText, bytes, &this->aes_key, AES_DECRYPT);
+	AES_ecb_encrypt(cipherText, bytes, &this->key, AES_DECRYPT);
 
 	return bytes;
 }
