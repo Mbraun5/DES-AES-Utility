@@ -63,10 +63,10 @@ class AES: public CipherInterface
 		 */
 		unsigned char twoCharToHexByte(const unsigned char* twoChars);
 
-		/* The 128-bit, user-defined encryption key with a padding byte at beginning
-		 * denoting whether or not this is for encryption or decryption.
-		 */
+		/* The 128-bit, user-defined encryption key */
 		unsigned char aes_key[16];
+
+		/* The key structure used by the AES library */
 		AES_KEY key;
 };
 
