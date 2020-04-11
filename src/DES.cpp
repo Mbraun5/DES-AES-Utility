@@ -1,4 +1,4 @@
-#include "DES.h"
+#include "../include/DES.h"
 
 /**
  * Sets the key to use

@@ -1,7 +1,7 @@
 #include <string>
-#include "CipherInterface.h"
-#include "DES.h"
-#include "AES.h"
+#include "../include/CipherInterface.h"
+#include "../include/DES.h"
+#include "../include/AES.h"
 #include <stdio.h>
 
 using namespace std;
