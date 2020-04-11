@@ -50,6 +50,13 @@ class AES: public CipherInterface
 	protected:
 
 		/**
+		 * Converts a character into a hexidecimal integer
+		 * @param character - the character to convert
+		 * @return - the converted character, or 'z' on error
+		 */
+		unsigned char charToHex(const char& character);
+
+		/**
 		 * Converts two characters into a hex integers
 		 * and then inserts the integers into the higher
 		 * and lower bits of the byte

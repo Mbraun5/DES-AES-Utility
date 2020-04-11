@@ -74,6 +74,25 @@ unsigned char* AES::decrypt(const unsigned char* cipherText)
 	return bytes;
 }
 
+/**
+ * Converts a character into a hexidecimal integer
+ * @param character - the character to convert
+ * @return - the converted character, or 'z' on error
+ */
+unsigned char DES::charToHex(const char& character)
+{
+	/* Is the first digit 0-9 ? */	
+	if(character >= '0' && character <= '9')	
+		/* Convert the character to hex */
+		return character - '0';
+	/* It the first digit a letter 'a' - 'f'? */
+	else if(character >= 'a' && character <= 'f')
+		/* Conver the cgaracter to hex */
+		return (character - 97) + 10;	
+	/* Invalid character */
+	else return 'z';
+}
+
 unsigned char AES::twoCharToHexByte(const unsigned char* twoChars)
 {
 	/* The byte */
