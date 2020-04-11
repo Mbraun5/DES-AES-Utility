@@ -26,7 +26,7 @@ int main(int argc, char** argv)
         exit(-1);
     }
 
-    int offset = stoi(argv[1], NULL, 10);
+    int offset = atoi(argv[1]);
     printf("%d\n", offset);
     buf = new unsigned char [BUFSIZE + offset];
 
@@ -36,7 +36,7 @@ int main(int argc, char** argv)
     }
 
     for (long long int j=0; j < 20000; j++) {
-        txt_gen(buf, i);
+        txt_gen(buf, offset);
         if (fwrite(buf, sizeof(unsigned char), BUFSIZE+offset, outfile) != BUFSIZE+offset) {
             fprintf(stderr, "ERROR [%s %s %d]: Did not write correct bytes to file\n",	
                             __FILE__, __FUNCTION__, __LINE__);
