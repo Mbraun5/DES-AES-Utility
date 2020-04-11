@@ -21,8 +21,8 @@ int main(int argc, char** argv)
     unsigned char* buf;
     FILE* outfile = fopen("test_file.txt", "wb+");
 
-    if (argc != 2) {
-        fprintf(stderr, "Invalid argc size. Need to pass offset parameter.\n");
+    if (argc != 3) {
+        fprintf(stderr, "Invalid argc size. Need to pass offset parameter and file size.\n");
         exit(-1);
     }
 
@@ -34,7 +34,7 @@ int main(int argc, char** argv)
         exit(-1);	
     }
 
-    for (long long int j=0; j < 20000; j++) {
+    for (long long int j=0; j < atoll(argv[2]); j++) {
         txt_gen(buf, offset);
         if (fwrite(buf, sizeof(unsigned char), BUFSIZE+offset, outfile) != BUFSIZE+offset) {
             fprintf(stderr, "ERROR [%s %s %d]: Did not write correct bytes to file\n",	

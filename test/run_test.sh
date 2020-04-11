@@ -3,12 +3,14 @@
 (cd .. && make) > null.txt
 
 num_tests=5
+file_size=20000
+
 tst="$(shuf -n ${num_tests} des_keys.txt)"
 i=0
 echo "------------DES TESTS------------"
 for t in ${tst[@]}; do
 	echo "Generating test file..."
-	./generate_file $i
+	./generate_file $i $file_size
 	((i=i+1))
 	echo "Running test with key: $t"
 	echo "Encoding file..."
@@ -44,7 +46,7 @@ i=0
 echo "------------AES TESTS------------"
 for t in ${tst[@]}; do
 	echo "Generating test file..."
-	./generate_file $i
+	./generate_file $i $file_size
 	((i=i+1))
 	echo "Running test with key: $t"
 	echo "Encoding file..."
