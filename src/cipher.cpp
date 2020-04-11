@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 	unsigned char* nblock;
 	int BUFFER_SIZE;
 	bool encrypt;
-
+	
 	/** 
 	 * If argument count != 6, not every parameter was added correctly.
 	 * If argument count is 2 and the 2nd argument is 'help', omit the 'Invalid parameter count' line

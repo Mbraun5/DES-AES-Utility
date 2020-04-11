@@ -2,7 +2,7 @@
 
 (cd .. && make) > null.txt
 
-num_tests=3
+num_tests=5
 tst="$(shuf -n ${num_tests} des_keys.txt)"
 i=0
 echo "------------DES TESTS------------"
@@ -12,17 +12,28 @@ for t in ${tst[@]}; do
 	((i=i+1))
 	echo "Running test with key: $t"
 	echo "Encoding file..."
-	(cd .. && ./cipher DES $t ENC test/test_file.txt test/enc.txt) > null.txt
-	echo "Decoding file..."
-	(cd .. && ./cipher DES $t DEC test/enc.txt test/dec.txt) > null.txt
-
-	res=$(diff test_file.txt dec.txt)
-	if [ "$res" != "" ]
+	../cipher DES $t ENC test_file.txt enc.txt > null.txt
+	if [ "$?" != 0 ]
 	then
-		echo "TEST FAILED!"
+		echo "TEST FAILED! Encoding file exited with exit status failure."
 		pass="False"
 	else
-		echo "TEST PASSED"
+		echo "Decoding file..."
+		../cipher DES $t DEC enc.txt dec.txt > null.txt
+		if [ "$?" != 0 ]
+		then
+			echo "TEST FAILED! Decoding file exited with exit status failure."
+			pass="False"
+		else
+			res=$(diff test_file.txt dec.txt)
+			if [ "$res" != "" ]
+			then
+				echo "TEST FAILED! Decoded file is not the same as the original."
+				pass="False"
+			else
+				echo "TEST PASSED"
+			fi
+		fi
 	fi
 	rm test_file.txt
 	echo ""
@@ -37,17 +48,28 @@ for t in ${tst[@]}; do
 	((i=i+1))
 	echo "Running test with key: $t"
 	echo "Encoding file..."
-	(cd .. && ./cipher AES $t ENC test/test_file.txt test/enc.txt) > null.txt
-	echo "Decoding file..."
-	(cd .. && ./cipher AES $t DEC test/enc.txt test/dec.txt) > null.txt
-	
-	res=$(diff test_file.txt dec.txt)
-	if [ "$res" != "" ]
+	../cipher AES $t ENC test_file.txt enc.txt > null.txt
+	if [ "$?" != 0 ]
 	then
-		echo "TEST FAILED!"
+		echo "TEST FAILED! Encoding file exited with exit status failure."
 		pass="False"
 	else
-		echo "TEST PASSED"
+		echo "Decoding file..."
+		../cipher AES $t DEC enc.txt dec.txt > null.txt
+		if [ "$?" != 0 ]
+		then
+			echo "TEST FAILED! Decoding file exited with exit status failure."
+			pass="False"
+		else
+			res=$(diff test_file.txt dec.txt)
+			if [ "$res" != "" ]
+			then
+				echo "TEST FAILED!"
+				pass="False"
+			else
+				echo "TEST PASSED"
+			fi
+		fi
 	fi
 	rm test_file.txt
 	echo ""
