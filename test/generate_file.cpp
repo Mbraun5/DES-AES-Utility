@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<string>
+#include <stdlib.h>
+#include <time.h> 
 
 using namespace std;
 
@@ -8,7 +10,7 @@ using namespace std;
 void txt_gen(unsigned char *buf, int offset) {
         // const char *hex_digits = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()-_=+[{]}";
         for (int i = 0; i < BUFSIZE+offset; i++) {
-            buf[i] = 32 + (rand() % (126-32+1))
+            buf[i] = 32 + (rand() % (126-32+1));
         }
         // printf("%s\n", buf);
 }
